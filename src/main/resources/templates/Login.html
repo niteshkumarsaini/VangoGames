@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="base::layout(~{::section},~{::title})">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VangoGames-Login</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+
+  <section class="container-fluid" style="">
+    <div class="alert" role="alert" th:if="${session.Message}" th:text="${session.Message.content}"
+      th:classappend="${session.Message.type}">
+
+    </div>
+    <div class="alert alert-success" role="alert" th:if="${param.logout}">
+      You have been logout
+    </div>
+
+    <div class="alert alert-danger" role="alert" th:if="${param.error}">
+      Invalid Email or Password
+    </div>
+
+
+    <div style="display: flex; justify-content: center;" class="my-4">
+
+      <div class="card" style="width: 23rem;">
+        <img th:src="@{icon_images/signin.jpg}" class="card-img-top" alt="...">
+
+        <div class="card-body">
+          <h5 class="card-title text-center"><i class='fa fa-solid fa-circle-user mx-1'></i>Login here </h5>
+
+          <form th:action="@{'/dashboard'}" method="post" th:object=${FetchUser}>
+            <div class="mb-3">
+              <label for="exampleInputEmail1" class="form-label">Email address</label>
+              <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+                name="username" th:classappend="${#fields.hasErrors('username')}?'is-invalid':'' ">
+              <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+              <div id="validationServer03Feedback" class="invalid-feedback" th:each="e:${#fields.errors('username')}"
+                th:text="${e}">
+
+              </div>
+            </div>
+            <div class="mb-4 ">
+              <label for="exampleInputPassword1" class="form-label">Password</label>
+              <input type="password" class="form-control" id="passwordfield" name="password"
+                th:classappend="${#fields.hasErrors('password')}?'is-invalid':'' ">
+              <div id="validationServer03Feedback" class="invalid-feedback" th:each="e:${#fields.errors('password')}"
+                th:text="${e}">
+
+              </div>
+            </div>
+            <div class="mb-3 form-check">
+              <input type="checkbox" class="form-check-input" id="showpassword">
+
+              <label class="form-check-label" for="exampleCheck1">Show Password</label>
+            </div>
+            <!-- <div class="container text-center">
+                 <button class="btn btn-sm btn-primary">Signin Using Google</button>
+             </div> -->
+            <!-- <div class="g_id_signin" data-type="standard"></div>
+                </div> -->
+            <div class="container text-center mb-3">
+              <button type="submit" class="btn btn-primary"> <i
+                  class="fa-solid fa-circle-user  fa-spin mx-0 px-2"></i>Login</button>
+              <a href="/register" class="btn btn-danger"> <i class="fa-solid fa-users mx-0 px-2"></i>Register</a>
+            </div>
+          <!--  <div class="container text-center">
+              <div id="g_id_onload"
+                data-client_id="1044579363730-vv25dvvlmvvtacbfon884mu1g4gchbgu.apps.googleusercontent.com"
+                data-callback="handleCredentialResponse">
+              </div>
+              <div class="g_id_signin btn btn-sm" data-type="standard"></div>
+            </div>
+            -->
+          </form>
+        
+            <div class="text-center"> 
+            <a class="btn btn-sm btn-outline-dark" th:href="@{/register}">Log in with Google</a>
+          </div>
+      
+
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+</body>
+
+</html>

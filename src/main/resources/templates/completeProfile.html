@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="base::layout(~{::section},~{::title})">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VangoGames-Complete Profile</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <section >
+    <div class="alert" role="alert" th:if="${session.Message}" th:text="${session.Message.content}" th:classappend="${session.Message.type}">
+      <th:block th:text="${@sessionHelper.removeSessionAttribute()}"></th:block>
+    </div>
+    <div style="display:flex; justify-content: center;">
+
+    <div class="card col-md-8">
+      <!-- <img th:src="@{images/signin.jpg}" class="card-img-top" alt="..."> -->
+      <div class="card-body">
+        <h5 class="card-title text-center" style="font-size: 26px;">Complete Your Profile</h5>
+
+
+        <form class="my-4" th:action="@{'/completeprofile'}" method="post" th:object=${Userprofile}>
+          <div class="mb-3">
+            <label for="exampleInputName" class="form-label">Name</label>
+            <input type="text" class="form-control" id="exampleInputName" th:value="${session.CurrentUser.name}"
+              name="name" th:classappend="${#fields.hasErrors('name')}?'is-invalid':'' ">
+              <div id="validationServer03Feedback" class="invalid-feedback" th:each="e:${#fields.errors('name')}" th:text="${e}"></div>
+          </div>
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Email address</label>
+            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+              th:value="${session.CurrentUser.username}" name="username" th:classappend="${#fields.hasErrors('username')}?'is-invalid':'' ">
+              <div id="validationServer03Feedback" class="invalid-feedback" th:each="e:${#fields.errors('username')}" th:text="${e}">
+          </div>
+          <div class="mb-3">
+            <label for="flexRadioMale" class="form-label">Gender</label>
+            <div style="display: flex;" id="exampleInputGender">
+              <div class="form-check mx-2">
+                <input class="form-check-input" type="radio" id="flexRadioMale" value="Male" name="gender" th:classappend="${#fields.hasErrors('gender')}?'is-invalid':'' " >
+                <label class="form-check-label" for="flexRadioDefault1">
+                  Male
+                </label>
+              </div>
+
+              <div class="form-check">
+                <input class="form-check-input" type="radio" value="Female" id="FemaleGender" name="gender" th:classappend="${#fields.hasErrors('gender')}?'is-invalid':'' ">
+                <label class="form-check-label" for="FemaleGender">
+                  Female
+                </label>
+              </div>
+              <div class="form-check mx-2">
+                <input class="form-check-input" type="radio" value="Other"
+                  id="OtherGender" name="gender" th:classappend="${#fields.hasErrors('gender')}?'is-invalid':'' ">
+                <label class="form-check-label" for="OtherGender">
+                  Other
+                </label>
+              </div>
+              <div id="validationServer03Feedback" class="invalid-feedback" th:each="e:${#fields.errors('gender')}" th:text="${e}"></div>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="exampleInputWhatsapp" class="form-label">Whatsapp</label>
+            <input type="text" class="form-control" id="exampleInputWhatsapp" name="whatsapp" th:classappend="${#fields.hasErrors('whatsapp')}?'is-invalid':'' ">
+            <div id="validationServer03Feedback" class="invalid-feedback" th:each="e:${#fields.errors('whatsapp')}" th:text="${e}"></div>
+          </div>
+          <div class="mb-3 form-check">
+            <input type="checkbox" class="form-check-input" id="inputEmailNotification" name="emailNotification" th:classappend="${#fields.hasErrors('emailNotification')}?'is-invalid':'' ">
+            <label class="form-check-label" for="inputEmailNotification">Send Updates on Email</label>
+            <div id="validationServer03Feedback" class="invalid-feedback" th:each="e:${#fields.errors('emailNotification')}" th:text="${e}"></div>
+          </div>
+          <div class="mb-3 form-check">
+            <input type="checkbox" class="form-check-input" id="inputWhatsappNotification" name="whatsappNotification" th:classappend="${#fields.hasErrors('whatsappNotification')}?'is-invalid':'' ">
+            <label class="form-check-label" for="inputWhatsappNotification">Send Updates on Whatsapp</label>
+            <div id="validationServer03Feedback" class="invalid-feedback" th:each="e:${#fields.errors('whatsappNotification')}" th:text="${e}"></div>
+          </div>
+          <div class="mb-3 form-check">
+            <input type="checkbox" class="form-check-input" id="inputMobileNotification" >
+            <label class="form-check-label" for="inputMobileNotification" name="mobileNotification">Send Updates on Mobile</label>
+            <div id="validationServer03Feedback" class="invalid-feedback" th:each="e:${#fields.errors('mobileNotification')}" th:text="${e}"></div>
+          </div>
+
+
+          <div class="mb-3">
+            <label for="" class="form-label" id="inputAgeId">Age</label>
+
+            <select class="form-select form-select-sm" aria-label=".form-select-sm example" name="age" id="inputAgeId" th:classappend="${#fields.hasErrors('age')}?'is-invalid':'' ">
+              <option selected disabled>Select</option>
+              <option value="1">1</option>
+<option value="2">2</option>
+<option value="3">3</option>
+<option value="4">4</option>
+<option value="5">5</option>
+<option value="6">6</option>
+<option value="7">7</option>
+<option value="8">8</option>
+<option value="9">9</option>
+<option value="10">10</option>
+<option value="11">11</option>
+<option value="12">12</option>
+<option value="13">13</option>
+<option value="14">14</option>
+<option value="15">15</option>
+<option value="16">16</option>
+<option value="17">17</option>
+<option value="18">18</option>
+<option value="19">19</option>
+<option value="20">20</option>
+<option value="21">21</option>
+<option value="22">22</option>
+<option value="23">23</option>
+<option value="24">24</option>
+<option value="25">25</option>
+<option value="26">26</option>
+<option value="27">27</option>
+<option value="28">28</option>
+<option value="29">29</option>
+<option value="30">30</option>
+<option value="31">31</option>
+<option value="32">32</option>
+<option value="33">33</option>
+<option value="34">34</option>
+<option value="35">35</option>
+<option value="36">36</option>
+<option value="37">37</option>
+<option value="38">38</option>
+<option value="39">39</option>
+<option value="40">40</option>
+<option value="41">41</option>
+<option value="42">42</option>
+<option value="43">43</option>
+<option value="44">44</option>
+<option value="45">45</option>
+<option value="46">46</option>
+<option value="47">47</option>
+<option value="48">48</option>
+<option value="49">49</option>
+<option value="50">50</option>
+<option value="51">51</option>
+<option value="52">52</option>
+<option value="53">53</option>
+<option value="54">54</option>
+<option value="55">55</option>
+<option value="56">56</option>
+<option value="57">57</option>
+<option value="58">58</option>
+<option value="59">59</option>
+<option value="60">60</option>
+<option value="61">61</option>
+<option value="62">62</option>
+<option value="63">63</option>
+<option value="64">64</option>
+<option value="65">65</option>
+<option value="66">66</option>
+<option value="67">67</option>
+<option value="68">68</option>
+<option value="69">69</option>
+<option value="70">70</option>
+<option value="71">71</option>
+<option value="72">72</option>
+<option value="73">73</option>
+<option value="74">74</option>
+<option value="75">75</option>
+<option value="76">76</option>
+<option value="77">77</option>
+<option value="78">78</option>
+<option value="79">79</option>
+<option value="80">80</option>
+<option value="81">81</option>
+<option value="82">82</option>
+<option value="83">83</option>
+<option value="84">84</option>
+<option value="85">85</option>
+<option value="86">86</option>
+<option value="87">87</option>
+<option value="88">88</option>
+<option value="89">89</option>
+<option value="90">90</option>
+<option value="91">91</option>
+<option value="92">92</option>
+<option value="93">93</option>
+<option value="94">94</option>
+<option value="95">95</option>
+<option value="96">96</option>
+<option value="97">97</option>
+<option value="98">98</option>
+<option value="99">99</option>
+<option value="100">100</option>
+<option value="101">101</option>
+<option value="102">102</option>
+<option value="103">103</option>
+<option value="104">104</option>
+<option value="105">105</option>
+<option value="106">106</option>
+<option value="107">107</option>
+<option value="108">108</option>
+<option value="109">109</option>
+<option value="110">110</option>
+
+            </select>
+            <div id="validationServer03Feedback" class="invalid-feedback" th:each="e:${#fields.errors('age')}" th:text="${e}"></div>
+
+          </div>
+
+
+          <div class="mb-3 form-check ">
+            <input type="checkbox" class="form-check-input " id="checkboxId" name="checkbox" th:classappend="${#fields.hasErrors('checkbox')}?'is-invalid':'' ">
+            <label class="form-check-label " for="checkboxId">Accept Terms and Conditions</label>
+            <div id="validationServer03Feedback" class="invalid-feedback" th:each="e:${#fields.errors('checkbox')}" th:text="${e}"></div>
+          </div>
+          <div class="container text-center">
+
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  </section>
+  <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 mt-4  border-top bg-dark text-light">
+    <div class="col-md-4 d-flex align-items-center">
+      <a href="/" class="mb-3 me-2 mb-md-0 text-body-secondary text-decoration-none lh-1">
+        <svg class="bi" width="30" height="24">
+          <use xlink:href="#bootstrap"></use>
+        </svg>
+      </a>
+      <span class="mb-3 mb-md-0 " style="">© 2023 Pay Vang Solutions Pvt. Ltd</span>
+    </div>
+
+    <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
+      <li class="ms-3"><a class="text-body-secondary" href="#"><img th:src="@{images/instagram.png}"
+            style="height: 20px; width: 20px;"></a></li>
+      <li class="ms-3"><a class="text-body-secondary" href="#"><img th:src="@{images/facebook.png}"
+            style="height: 20px; width: 20px;"></a></li>
+      <li class="ms-3"><a class="text-body-secondary" href="#"><img th:src="@{images/twitter.png}"
+            style="height: 20px; width: 20px;"></a></li>
+    </ul>
+  </footer>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+    integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+  <script>
+
+
+  </script>
+
+
+  <script src="script.js"></script>
+  <!-- <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 mt-4  border-top bg-dark text-light" >
+        <div class="col-md-4 d-flex align-items-center">
+          <a href="/" class="mb-3 me-2 mb-md-0 text-body-secondary text-decoration-none lh-1">
+            <svg class="bi" width="30" height="24"><use xlink:href="#bootstrap"></use></svg>
+          </a>
+          <span class="mb-3 mb-md-0 " style="">© 2023 Pay Vang Solutions Pvt. Ltd</span>
+        </div>
+    
+        <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
+          <li class="ms-3"><a class="text-body-secondary" href="#"><img src="public/images/instagram.png" style="height: 20px; width: 20px;"></a></li>
+          <li class="ms-3"><a class="text-body-secondary" href="#"><img src="public/images/facebook.png" style="height: 20px; width: 20px;"></a></li>
+          <li class="ms-3"><a class="text-body-secondary" href="#"><img src="public/images/twitter.png" style="height: 20px; width: 20px;"></a></li>
+        </ul>
+      </footer> -->
+
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+    integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+    integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+    crossorigin="anonymous"></script>
+</body>
+
+</html>

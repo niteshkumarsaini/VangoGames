@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>JAGO</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+
+<meta name="generator" content="Construct 3">
+	<meta name="author" content="Muscle-SS">
+	<meta name="description" content="game">
+	<link rel="manifest" href="appmanifest.json">
+	<link rel="apple-touch-icon" sizes="128x128" href="icons/icon-128.png">
+	<link rel="apple-touch-icon" sizes="256x256" href="icons/icon-256.png">
+	<link rel="icon" type="image/png" href="icons/icon-256.png">
+
+<link rel="stylesheet" href="style.css">
+<style>
+	#refreshBtn,
+	#closeBtn {
+		padding: 8px;
+		border-radius: 10px;
+		font-weight: bold;
+		background-color: green;
+		color: white;
+		margin-left: 10px;
+		/* margin-top: 10px; */
+	}
+
+	.btnContainer {
+		display: flex;
+		/* border: 2px solid white; */
+	}
+
+	.showText {
+		margin-top: 6px;
+		margin-left: 5px;
+	}
+
+	#closeBtn {
+		margin-top: 8px;
+		background-color: red;
+	}
+
+	.mydiv {
+		/* display: flex; */
+		display: flex;
+		flex-direction: row;
+		/* width: 90%; */
+
+	}
+#fb-root{
+	position: relative;
+}
+
+/* Additional elements container styles */
+.btnContainer {
+position: absolute;
+top: 10px;
+right: 10px;
+display: flex;
+flex-direction: column;
+align-items: flex-end;
+}
+#timer{
+margin-bottom: 8px;
+margin-right: 20px;
+}
+
+</style>
+
+</head>
+<body>
+<div id="fb-root"></div>
+
+	<noscript>
+		<div id="notSupportedWrap">
+			<h2 id="notSupportedTitle">This content requires JavaScript</h2>
+			<p class="notSupportedMessage">JavaScript appears to be disabled. Please enable it to view this content.</p>
+		</div>
+	</noscript>
+	<div class="btnContainer">
+	
+		<div class="showText" id="timer">Timer <span id="refresh-timer"></span></div>
+		<button onclick="timerFunction()" id="refreshBtn">Refresh to continue</button>
+
+	<button class="btn btn-sm" onclick="closeGame()" id="closeBtn">Close the Game</button>
+</div>
+	  
+	  <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+	  
+	  
+	  <script>
+		alert("Here are Some Instructions Below. \n At the Left Corner you will find the timer of five mints. You have to refresh the timer before the end of the timer till 30 mints. As soon as you played game for 30 mint continuously you will be gain 10 Coins to your wallet. ")
+	  var myid='14'
+	  
+	  const refresh_timer=document.getElementById("refresh-timer")
+	  
+	  var seconds=20;
+	  var totals=0;
+	  var id=setInterval(() => {
+	  
+	  refresh_timer.innerText=seconds;
+	  seconds=seconds-1;
+	  totals=totals+1;
+	  if(seconds<0){
+		clearInterval(id);
+		$(document).ready(()=>{
+		  $.ajax(({
+					url:"/gameredirect",
+					type:"POST",
+					data:totals,
+					success:function(data,status,jqXHR){
+			  console.log(totals)
+					  
+					},
+					error:function(jqXHR,status,errorThrown){
+						console.log(status);
+					},
+					processData:false,
+					contentType:"text/html"
+			
+		  }))
+		})
+	  }
+	  
+	  if(seconds<10){
+	  refresh_timer.style.color="red";
+	  }
+	  else{
+		refresh_timer.style.color="white";
+	  
+	  }
+	  
+	  }, 1000);
+	  
+	  
+	  function timerFunction(){
+		seconds=20;
+	  
+	  }
+	  
+	  
+	  
+	  const closeGame=()=>{
+	  clearInterval(id);
+			$(document).ready(()=>{
+				$.ajax(({
+					url:"/updateRedirection",
+					type:"POST",
+					data:totals,
+					success:function(data,status,jqXHR){
+					 
+					},
+					error:function(jqXHR,status,errorThrown){
+					 
+					},
+					processData:false,
+					contentType:"text/html"
+	  
+					
+				}))
+				window.location.href="/dashboard";
+			})
+	  }
+	  $(document).ready(() => {
+		$.ajax(({
+			url: "/updateGameId",
+			type: "POST",
+			data:myid,
+			success: function (data, status, jqXHR) {
+		
+			},
+			error: function (jqXHR, status, errorThrown) {
+			
+			},
+			processData: false,
+			contentType: "text/html"
+	  
+	  
+		}));
+	  })
+	  
+	  
+	  
+	  </script>
+	<script src="scripts/supportcheck.js"></script>
+	<script src="scripts/offlineclient.js" type="module"></script>
+	<script src="scripts/main.js" type="module"></script>
+	<script src="scripts/register-sw.js" type="module"></script>
+</body>
+</html>
